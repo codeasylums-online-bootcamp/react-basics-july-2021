@@ -1,32 +1,29 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 
-class CreateTask extends Component{
+const initialState = {
+    taskName:""
+}
 
-    constructor(props){
-        super(props);
+const CreateTask = (props) => {
+    //useState returns an array of current_state and a function to update state
+    // parameter is the initial state
+    const [state, setState] = useState(initialState);
 
-        this.state = {
-            taskName:""
-        }
+    const changeHandler = (event) => {
+        setState({taskName:event.target.value})
     }
 
-    changeHandler = (event) => {
-        this.setState({taskName:event.target.value})
+    const handleSubmit = () => {
+        props.createTask(state.taskName);
+        setState({taskName:""})
     }
 
-    handleSubmit = () => {
-        this.props.createTask(this.state.taskName);
-        this.setState({taskName:""})
-    }
-
-    render(){
-        return(
-            <div>
-                <input type="text" value={this.state.taskName} onChange={this.changeHandler}/><br/>
-                <button onClick={this.handleSubmit}>Submit</button>
-            </div>
-        );
-    }
+    return(
+        <div>
+            <input type="text" value={state.taskName} onChange={changeHandler}/><br/>
+            <button onClick={handleSubmit}>Submit</button>
+        </div>
+    );
 }
 
 export default CreateTask;

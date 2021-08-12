@@ -1,6 +1,11 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 
 const Task = (props) => {
+
+    useEffect(()=>{
+        console.log(`task with name ${props.task.taskName} created`)
+    },[props.index,props.task.taskName])
+
     const {deleteTask, index, task} = props
 
     return(

@@ -1,34 +1,32 @@
-import React, { Component } from 'react'
+import React from 'react'
 import CreateTask from './CreateTask'
 import Task from './Task'
 
-class List extends Component {
+const List = (props) => {
 
-    createTask = (taskName) => {
-        this.props.createTask(this.props.index,taskName)
+    const createTask = (taskName) => {
+        props.createTask(props.index,taskName)
     }
 
-    deleteTask = (taskIndex) => {
-        this.props.deleteTask(this.props.index,taskIndex)
+    const deleteTask = (taskIndex) => {
+        props.deleteTask(props.index,taskIndex)
     }    
 
-    render(){
-        const {deleteList,index,list} = this.props
+    const {deleteList,index,list} = props
 
-        return(
-            <div>
-                {list.listName}
-                <button onClick={() => deleteList(index)}>Del</button>
-                <CreateTask createTask={this.createTask}/>
-                {list.tasks.map((task,idx) => <Task 
-                    key={`list-${index}-task-${idx}`}
-                    task={task}
-                    index={idx}
-                    deleteTask={this.deleteTask}
-                    />)}
-            </div>
-        );
-    }
+    return(
+        <div>
+            {list.listName}
+            <button onClick={() => deleteList(index)}>Del</button>
+            <CreateTask createTask={createTask}/>
+            {list.tasks.map((task,idx) => <Task 
+                key={`list-${index}-task-${idx}`}
+                task={task}
+                index={idx}
+                deleteTask={deleteTask}
+                />)}
+        </div>
+    );
 }
 
 export default List;

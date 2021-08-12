@@ -1,36 +1,42 @@
-import React,{Component} from 'react';
+import React,{useState} from 'react';
 
 import CreateList from './CreateList'
 import List from './List'
 
-class App extends Component {
-    constructor(props){
-        super(props)
+const initialState = {
+    lol: []
+}
+const App = (props) => {
+    // constructor(props){
+    //     super(props)
 
-        this.state = {
-            lol: []
-        }
-    }
+    //     this.state = {
+    //         lol: []
+    //     }
+    // }
 
-    createList = (listName) => {
-        const {lol} = this.state
-        this.setState({lol:[...lol,{
+    const [state,setState] = useState(initialState)
+    // const [s2,setS2] = useState(0)
+
+    const createList = (listName) => {
+        const {lol} = state
+         setState({lol:[...lol,{
             listName:listName,
             tasks:[]
         }]
         })
     }
 
-    deleteList = (index) => {
-        let {lol} = this.state;
+    const deleteList = (index) => {
+        let {lol} =  state;
 
         const newLol = [...lol.slice(0,index),...lol.slice(index+1)]
-        this.setState({lol:newLol})
+         setState({lol:newLol})
     }
 
-    createTask = (listIndex,taskName) => {
+    const createTask = (listIndex,taskName) => {
         
-        let newState = {...this.state};
+        let newState = {...state};
 
         let list = newState.lol[listIndex]
 
@@ -43,11 +49,11 @@ class App extends Component {
         
         newState.lol[listIndex] = list
 
-        this.setState({newState})
+         setState({newState})
     }
 
-    deleteTask = (listIndex, taskIndex) => {
-        let newState = {...this.state}
+    const deleteTask = (listIndex, taskIndex) => {
+        let newState = {...state}
         let list = newState.lol[listIndex]
 
         let taskList = list.tasks
@@ -56,24 +62,22 @@ class App extends Component {
                             ...taskList.slice(taskIndex+1)]
 
         newState.lol[listIndex].tasks = newTaskList
-        this.setState({newState})
+        setState({newState})
     }
 
-    render(){
-        return(
-            <div>
-                <CreateList createList={this.createList}/>
-                {this.state.lol.map((list,idx) => 
-                    <List key={`list-${idx}`} 
-                    list={list}
-                    index={idx} 
-                    deleteList={this.deleteList}
-                    createTask={this.createTask}
-                    deleteTask={this.deleteTask}/>
-                )}
-            </div>
-        );
-    }
+    return(
+        <div>
+            <CreateList createList={createList}/>
+            {state.lol.map((list,idx) => 
+                <List key={`list-${idx}`} 
+                list={list}
+                index={idx} 
+                deleteList={deleteList}
+                createTask={createTask}
+                deleteTask={deleteTask}/>
+            )}
+        </div>
+    );
 }
 
 export default App;

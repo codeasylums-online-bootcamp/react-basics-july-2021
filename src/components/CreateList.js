@@ -1,32 +1,36 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 
-class CreateList extends Component{
+const initialState = {
+    listName:""
+}
 
-    constructor(props){
-        super(props);
+const CreateList = (props) => {
 
-        this.state = {
-            listName:""
-        }
+    // constructor(props){
+    //     super(props);
+
+    //     this.state = {
+    //         listName:""
+    //     }
+    // }
+
+    const [state, setState] = useState(initialState)
+
+    const changeHandler = (event) => {
+        setState({listName:event.target.value})
     }
 
-    changeHandler = (event) => {
-        this.setState({listName:event.target.value})
+    const handleSubmit = () => {
+        props.createList(state.listName);
+        setState({listName:""})
     }
 
-    handleSubmit = () => {
-        this.props.createList(this.state.listName);
-        this.setState({listName:""})
-    }
-
-    render(){
-        return(
-            <div>
-                <input type="text" value={this.state.listName} onChange={this.changeHandler}/><br/>
-                <button onClick={this.handleSubmit}>Submit</button>
-            </div>
-        );
-    }
+    return(
+        <div>
+            <input type="text" value={state.listName} onChange={changeHandler}/><br/>
+            <button onClick={handleSubmit}>Submit</button>
+        </div>
+    );
 }
 
 export default CreateList;
